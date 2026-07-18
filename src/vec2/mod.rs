@@ -53,6 +53,17 @@ impl Vec2 {
             y:(vec2.y / len)
         }
     }
+
+    pub fn cross_vec2(&self, vec2: &mut Vec2) -> f32 {
+        return (self.x * vec2.y) - (self.y * vec2.x)
+    }
+
+    pub fn lerp(&self, start: &mut Vec2, end: &mut Vec2, dt: f32) -> Vec2 {
+        Vec2 {
+            x:(start.x + (end.x - start.x) * dt),
+            y:(start.y + (end.y - start.y) * dt)
+        }
+    }
 }
 
 
@@ -91,6 +102,18 @@ mod tests {
         assert_eq!(10.0, output_dot_product);
     }
     #[test]
+    fn test_cross_vec2() {
+        let vector = Vec2::new(1.0, 0.0);
+        let mut perpendicular = Vec2 {x: 0.0, y: 1.0};
+        let mut parallel = Vec2 {x: 4.0, y: 0.0};
+
+        let output_perpendicular = vector.cross_vec2(&mut perpendicular);
+        let output_parallel = vector.cross_vec2(&mut parallel);
+
+        assert_eq!(1.0, output_perpendicular);
+        assert_eq!(0.0, output_parallel);
+    }
+    #[test]
     fn test_len() {
 
         let vector = Vec2::new(3.0, 4.0);
@@ -121,5 +144,23 @@ mod tests {
         assert_eq!(expected, output);
         assert_eq!(expeted_fallback, output_zero);
 
+    }
+    #[test]
+    fn test_lerp() {
+        let vector = Vec2::new(0.0, 0.0);
+        let mut start = Vec2 {x: 0.0, y: 0.0};
+        let mut end = Vec2 {x: 10.0, y: 20.0};
+
+        // dt = 0.0 -> exactly at start
+        let output_start = vector.lerp(&mut start, &mut end, 0.0);
+        assert_eq!(Vec2 {x: 0.0, y: 0.0}, output_start);
+
+        // dt = 1.0 -> exactly at end
+        let output_end = vector.lerp(&mut start, &mut end, 1.0);
+        assert_eq!(Vec2 {x: 10.0, y: 20.0}, output_end);
+
+        // dt = 0.5 -> halfway point between start and end
+        let output_half = vector.lerp(&mut start, &mut end, 0.5);
+        assert_eq!(Vec2 {x: 5.0, y: 10.0}, output_half);
     }
 }
