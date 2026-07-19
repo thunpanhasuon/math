@@ -2,5 +2,10 @@
 name = "math-rs"
 version = "0.1.0"
 edition = "2024"
+description = "A small 2D math library for games"
+license = "MIT"
+repository = "https://github.com/thunpanhasuon/math"
 
 [dependencies]
+rand = "0.10.2"
+rand_pcg = "0.10.2"
