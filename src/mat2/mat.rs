@@ -26,7 +26,7 @@ impl Mat2 {
             matrix: [row1, row2],
         }
     }
-    pub fn ccwRotatation(angle: Angle) -> Self {
+    pub fn ccw_rotatation(angle: Angle) -> Self {
         let rad = angle.as_radians();
         let (sin, cos) = (rad.sin(), rad.cos());
 
@@ -142,17 +142,17 @@ mod tests {
 
         // trig gives floating point results (e.g. cos(90deg) is ~-4e-8,
         // not exactly 0.0), so compare with an epsilon instead of assert_eq!
-        let mut rot_90 = Mat2::ccwRotatation(Angle::Degrees(90.0));
+        let mut rot_90 = Mat2::ccw_rotatation(Angle::Degrees(90.0));
         let rotated_90 = Mat2::mul(&mut rot_90, &mut vec);
         assert!((rotated_90.x - 0.0).abs() < 1e-6);
         assert!((rotated_90.y - 1.0).abs() < 1e-6);
 
-        let mut rot_180 = Mat2::ccwRotatation(Angle::Degrees(180.0));
+        let mut rot_180 = Mat2::ccw_rotatation(Angle::Degrees(180.0));
         let rotated_180 = Mat2::mul(&mut rot_180, &mut vec);
         assert!((rotated_180.x - (-1.0)).abs() < 1e-6);
         assert!((rotated_180.y - 0.0).abs() < 1e-6);
 
-        let mut rot_0 = Mat2::ccwRotatation(Angle::Radians(0.0));
+        let mut rot_0 = Mat2::ccw_rotatation(Angle::Radians(0.0));
         let rotated_0 = Mat2::mul(&mut rot_0, &mut vec);
         assert!((rotated_0.x - 1.0).abs() < 1e-6);
         assert!((rotated_0.y - 0.0).abs() < 1e-6);
